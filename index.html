@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Form with Validation</title>
+  <link href="style.css" rel="stylesheet">
+</head>
+<body>
+  <form id="myForm">
+    <input type="text" id="username" placeholder="Username">
+    <div id="usernameError" class="error"></div>
+    <input type="email" id="email" placeholder="Email">
+    <div id="emailError" class="error"></div>
+    <input type="password" id="password" placeholder="Password">
+    <div id="passwordError" class="error"></div>
+    <button type="submit">Submit</button>
+  </form>
+
+  <script>
+    const form = document.getElementById('myForm');
+    const username = document.getElementById('username');
+    const email = document.getElementById('email');
+    const password = document.getElementById('password');
+    const usernameError = document.getElementById('usernameError');
+    const emailError = document.getElementById('emailError');
+    const passwordError = document.getElementById('passwordError');
+
+    form.addEventListener('submit', function(event) {
+      event.preventDefault();
+      validateForm();
+    });
+
+    function validateForm() {
+      const usernameValue = username.value.trim();
+      const emailValue = email.value.trim();
+      const passwordValue = password.value.trim();
+
+      if (usernameValue === '') {
+        setErrorFor(username, 'Username cannot be blank');
+      } else {
+        setSuccessFor(username);
+      }
+
+      if (emailValue === '') {
+        setErrorFor(email, 'Email cannot be blank');
+      } else if (!isEmailValid(emailValue)) {
+        setErrorFor(email, 'Email is not valid');
+      } else {
+        setSuccessFor(email);
+      }
+
+      if (passwordValue === '') {
+        setErrorFor(password, 'Password cannot be blank');
+      } else {
+        setSuccessFor(password);
+      }
+    }
+
+    function setErrorFor(input, message) {
+      const errorDiv = input.nextElementSibling;
+      errorDiv.innerText = message;
+      input.classList.add('error');
+    }
+
+    function setSuccessFor(input) {
+      const errorDiv = input.nextElementSibling;
+      errorDiv.innerText = '';
+      input.classList.remove('error');
+    }
+
+    function isEmailValid(email) {
+      return /\S+@\S+\.\S+/.test(email);
+    }
+  </script>
+</body>
+</html>
